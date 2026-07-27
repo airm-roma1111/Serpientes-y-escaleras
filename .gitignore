@@ -1,0 +1,16 @@
+# Dependencias
+node_modules/
+
+# Entorno y variables
+.env
+.env.local
+
+# Archivos de log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Compilaciones y carpetas del sistema
+dist/
+build/
+.DS_Store

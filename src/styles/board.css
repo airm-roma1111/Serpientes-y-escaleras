@@ -1,0 +1,235 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: black;
+}
+h1 {
+  color: whitesmoke;
+  margin: 20px;
+}
+.tablero {
+  display: grid;
+  width: min(90vw, 500px);
+  aspect-ratio: 1;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 3px;
+  margin: 20px auto;
+}
+.casilla {
+  border: 2px solid #333;
+  font-size: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+.numero {
+  font-size: 14px;
+  color: #555;
+}
+.ale {
+  background: lightgreen;
+}
+.tri {
+  background: lightgray;
+}
+.ira {
+  background: lightcoral;
+}
+.tem {
+  background: violet;
+}
+.asc {
+  background: rgb(199, 108, 199);
+}
+.sor {
+  background: yellow;
+}
+.des {
+  background: lightblue;
+}
+
+.footer {
+  color: whitesmoke;
+  margin-top: 0px;
+}
+
+/* STYLES DEL DADO */
+
+.panel-juego {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.dado {
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  background: #fff;
+  border: 4px solid #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: bold;
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+.rodando {
+  animation: rodarDado .3s linear infinite;
+}
+
+@keyframes rodarDado {
+
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: rotate(90deg) scale(1.15);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(.9);
+  }
+
+  75% {
+    transform: rotate(270deg) scale(1.15);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+
+  animation: fadeIn .3s ease;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  min-width: 300px;
+  text-align: center;
+
+  animation: zoomIn .3s ease;
+}
+
+.resultado-dado {
+  width: 80px;
+  height: 80px;
+  margin: 1rem auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 12px;
+  border: 3px solid #222;
+
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.btn-cerrar,
+.btn-lanzar {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #1976d2;
+  color: white;
+}
+
+.btn-cerrar:hover,
+.btn-lanzar:hover {
+  background: #0f5bb5;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(.7);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* Styles de las fichas de los jugadores */
+.celda {
+  position: relative;
+  border: 1px solid #ccc;
+}
+
+.fichas {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+
+  display: flex;
+  gap: 4px;
+}
+
+.ficha {
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+
+  animation: aparecer .3s ease;
+}
+
+.ficha-roja {
+  background: crimson;
+}
+
+.ficha-azul {
+  background: dodgerblue;
+}
+
+@keyframes aparecer {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
