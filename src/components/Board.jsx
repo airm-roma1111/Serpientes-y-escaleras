@@ -82,7 +82,7 @@ export default function Board() {
 
   return (
     <>
-      <h2>Turno del Jugador {turno}</h2>
+      <h2 style={{color: "white"}} >Turno del Jugador {turno}</h2>
 
       <div className="tablero">
         {boardData.map((c) => (
@@ -91,11 +91,11 @@ export default function Board() {
       </div>
 
       <div className="panel-juego">
-        <div className={`dado ${rodando ? "rodando" : ""}`}>{valorDado}</div>
+        <div onClick={lanzarDado} className={`dado ${rodando ? "rodando" : ""}`}>{valorDado}</div>
 
-        <button className="btn-lanzar" onClick={lanzarDado} disabled={rodando}>
+        {/* <button className="btn-lanzar" onClick={lanzarDado} disabled={rodando}>
           {rodando ? "Lanzando..." : "Lanzar dado"}
-        </button>
+        </button> */}
 
         <p>Posición jugador: {posicionJugador}</p>
       </div>
