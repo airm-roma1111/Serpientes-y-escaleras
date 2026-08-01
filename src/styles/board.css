@@ -7,6 +7,11 @@ h1 {
   color: whitesmoke;
   margin: 8px;
 }
+
+h2 {
+  color: rgb(117, 114, 114);
+  margin: 8px;
+}
 .tablero {
   display: grid;
   width: min(80vw, 400px);

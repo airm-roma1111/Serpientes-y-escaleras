@@ -82,23 +82,21 @@ export default function Board() {
 
   return (
     <>
-      <h2 style={{color: "white"}} >Turno del Jugador {turno}</h2>
+  
+  <h2>Proximamente ...</h2>
+  
+      {/* <h2>Turno del Jugador {turno}</h2> */}
 
-      <div className="tablero">
+      {/* <div className="tablero">
         {boardData.map((c) => (
           <Cell key={c.numero} {...c} jugador1={jugador1} jugador2={jugador2} />
         ))}
-      </div>
+      </div> */}
 
-      <div className="panel-juego">
+      {/* <div className="panel-juego">
         <div onClick={lanzarDado} className={`dado ${rodando ? "rodando" : ""}`}>{valorDado}</div>
-
-        {/* <button className="btn-lanzar" onClick={lanzarDado} disabled={rodando}>
-          {rodando ? "Lanzando..." : "Lanzar dado"}
-        </button> */}
-
         <p>Posición jugador: {posicionJugador}</p>
-      </div>
+      </div> */}
 
       {mostrarModal && (
         <div className="modal-overlay">
