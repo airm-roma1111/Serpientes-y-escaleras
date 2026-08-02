@@ -93,10 +93,6 @@ export default function Board() {
       <div className="panel-juego">
         <div onClick={lanzarDado} className={`dado ${rodando ? "rodando" : ""}`}>{valorDado}</div>
 
-        {/* <button className="btn-lanzar" onClick={lanzarDado} disabled={rodando}>
-          {rodando ? "Lanzando..." : "Lanzar dado"}
-        </button> */}
-
         <p>Posición jugador: {posicionJugador}</p>
       </div>
 

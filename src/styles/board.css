@@ -234,3 +234,21 @@ h1 {
     transform: scale(1);
   }
 }
+
+.contenido {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emoji-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.emoji-span {
+  font-size: 2rem;
+}
