@@ -17,33 +17,32 @@ export default function Board() {
 
   const [moviendo, setMoviendo] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  /////////////////////estados para el efecto de zoom
+  const [celdaActual, setCeldaActual] = useState(null);
+  const [mostrarZoom, setMostrarZoom] = useState(false);
 
   useEffect(() => {
-  const imageUrls = boardData
-    .map((item) => item.imagen)
-    .filter(Boolean);
+    const imageUrls = boardData.map((item) => item.imagen).filter(Boolean);
 
-  const imagePromise = Promise.all(
-    imageUrls.map((src) => {
-      return new Promise((resolve) => {
-        const img = new Image();
+    const imagePromise = Promise.all(
+      imageUrls.map((src) => {
+        return new Promise((resolve) => {
+          const img = new Image();
 
-        img.src = src;
+          img.src = src;
 
-        img.onload = resolve;
-        img.onerror = resolve;
-      });
-    })
-  );
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      }),
+    );
 
-  const delayPromise = new Promise((resolve) =>
-    setTimeout(resolve, 2000)
-  );
+    const delayPromise = new Promise((resolve) => setTimeout(resolve, 2000));
 
-  Promise.all([imagePromise, delayPromise]).then(() => {
-    setImagesLoaded(true);
-  });
-}, []);
+    Promise.all([imagePromise, delayPromise]).then(() => {
+      setImagesLoaded(true);
+    });
+  }, []);
 
   function moverJugador(casillas) {
     setPosicionJugador((posicionActual) =>
@@ -75,41 +74,60 @@ export default function Board() {
 
         setTimeout(() => {
           setRodando(false);
-        //  setMostrarModal(true);
+          //  setMostrarModal(true);
         }, 300);
       }
     }, 100);
   }
 
   function moverJugadorAnimado(resultado) {
-    setMoviendo(true);
+  setMoviendo(true);
 
-    const setter = turno === 1 ? setJugador1 : setJugador2;
-    const posicionActual = turno === 1 ? jugador1 : jugador2;
+  const jugadorActual = turno;
+  const setter = jugadorActual === 1 ? setJugador1 : setJugador2;
 
-    let recorrido = 0;
+  let recorrido = 0;
+  let posicionFinal = null;
 
-    const animacion = setInterval(() => {
-      recorrido++;
+  const animacion = setInterval(() => {
+    recorrido++;
 
-      setter((pos) => Math.min(pos + 1, 49));
+    setter((pos) => {
+      posicionFinal = Math.min(pos + 1, 49);
+      return posicionFinal;
+    });
 
-      if (recorrido >= resultado) {
-        clearInterval(animacion);
+    if (recorrido >= resultado) {
+      clearInterval(animacion);
 
-        setTimeout(() => {
-          setMoviendo(false);
+      setTimeout(() => {
+        setMoviendo(false);
 
-          setTurno((t) => (t === 1 ? 2 : 1));
+        const celda = boardData.find(
+          (item) => item.numero === posicionFinal
+        );
 
-          //setMostrarModal(true);
-        }, 300);
-      }
-    }, 400);
+        setCeldaActual(celda);
+        setMostrarZoom(true);
+
+        // Alternar turno correctamente
+        setTurno(jugadorActual === 1 ? 2 : 1);
+      }, 300);
+    }
+  }, 400);
+}
+
+  function mostrarCeldaActual() {
+    const posicionFinal = turno === 1 ? jugador1 : jugador2;
+
+    const celda = boardData.find((item) => item.numero === posicionFinal);
+
+    if (celda) {
+      setCeldaActual(celda);
+      setMostrarZoom(true);
+    }
   }
-
-
-    if (!imagesLoaded) {
+  if (!imagesLoaded) {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
@@ -118,30 +136,26 @@ export default function Board() {
     );
   }
 
-    return (
+  return (
     <>
-      <h2 style={{ color: "white" }}>
-        Turno del Jugador {turno}
-      </h2>
+      <h2 style={{ color: "white" }}>Turno del Jugador {turno}</h2>
 
       <div className="tablero">
         {boardData.map((c) => (
-          <Cell
-            key={c.numero}
-            {...c}
-            jugador1={jugador1}
-            jugador2={jugador2}
-          />
+          <Cell key={c.numero} {...c} jugador1={jugador1} jugador2={jugador2} />
         ))}
       </div>
 
       <div className="panel-juego">
-        <div onClick={lanzarDado} className={`dado ${rodando ? "rodando" : ""}`}>{valorDado}</div>
-
-        <p>Posición jugador: {posicionJugador}</p>
+        <div
+          onClick={lanzarDado}
+          className={`dado ${rodando ? "rodando" : ""}`}
+        >
+          {valorDado}
+        </div>
       </div>
 
-      {mostrarModal && (
+      {/* {mostrarModal && (
         <div className="modal-overlay">
           <div className="modal">
             <h2>🎲 Resultado</h2>
@@ -156,6 +170,21 @@ export default function Board() {
             >
               Continuar
             </button>
+          </div>
+        </div>
+      )} */}
+
+      {mostrarZoom && celdaActual && (
+        <div onClick={() => setMostrarZoom(false)}
+        className="zoom-overlay">
+          <div className="zoom-cell">
+            <Cell
+              
+              key={celdaActual.numero}
+              {...celdaActual}
+              jugador1={jugador1}
+              jugador2={jugador2}
+            />
           </div>
         </div>
       )}

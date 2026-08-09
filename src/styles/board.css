@@ -189,6 +189,7 @@ h1 {
 .celda {
   position: relative;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .fichas {
@@ -275,5 +276,39 @@ h1 {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+.zoom-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.zoom-cell {
+  background: white;
+  border-radius: 12px;  
+  text-align: center;
+
+  animation: zoomInCell 800ms ease forwards;
+
+  min-width: 60px;
+  min-height: 30px;
+}
+
+
+@keyframes zoomInCell {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(5);
+    opacity: 1;
   }
 }
