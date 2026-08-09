@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cell from "./Cell";
 import { boardData } from "../data/boardData";
 
@@ -16,6 +16,34 @@ export default function Board() {
   const [turno, setTurno] = useState(1);
 
   const [moviendo, setMoviendo] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  useEffect(() => {
+  const imageUrls = boardData
+    .map((item) => item.imagen)
+    .filter(Boolean);
+
+  const imagePromise = Promise.all(
+    imageUrls.map((src) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+
+        img.src = src;
+
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    })
+  );
+
+  const delayPromise = new Promise((resolve) =>
+    setTimeout(resolve, 2000)
+  );
+
+  Promise.all([imagePromise, delayPromise]).then(() => {
+    setImagesLoaded(true);
+  });
+}, []);
 
   function moverJugador(casillas) {
     setPosicionJugador((posicionActual) =>
@@ -80,13 +108,30 @@ export default function Board() {
     }, 400);
   }
 
-  return (
+
+    if (!imagesLoaded) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <h2>Cargando tablero...</h2>
+      </div>
+    );
+  }
+
+    return (
     <>
-      <h2 style={{color: "white"}} >Turno del Jugador {turno}</h2>
+      <h2 style={{ color: "white" }}>
+        Turno del Jugador {turno}
+      </h2>
 
       <div className="tablero">
         {boardData.map((c) => (
-          <Cell key={c.numero} {...c} jugador1={jugador1} jugador2={jugador2} />
+          <Cell
+            key={c.numero}
+            {...c}
+            jugador1={jugador1}
+            jugador2={jugador2}
+          />
         ))}
       </div>
 
